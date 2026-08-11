@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Próximo Encontro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,500;0,700;1,400&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff; /* Texto principal branco para o tema espacial */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            /* Fundo gradiente com tema espacial */
+            background: linear-gradient(135deg, #0b0c10 0%, #1f2833 50%, #0d1321 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Efeito de Estrelas no Fundo */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 160px 120px, #e0e0e0, rgba(0,0,0,0)),
+                radial-gradient(2.5px 2.5px at 250px 90px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 300px 300px;
+            animation: twinkle 5s infinite linear;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+
+        /* Container Principal que agrupa a contagem e as fotos */
+        .main-wrapper {
+            display: flex;
+            flex-direction: row; /* Lado a lado por padrão */
+            align-items: stretch;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1100px;
+            width: 100%;
+            z-index: 1; /* Fica acima das estrelas */
+        }
+
+        /* Painel de Contagem (Esquerda) */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.08); /* Fundo muito sutil para o espaço */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            flex: 1; /* Ocupa metade do espaço */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Painel de Fotos (Direita) */
+        .photo-container {
+            flex: 1; /* Ocupa a outra metade */
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 400px; /* Altura mínima para as fotos */
+            background-color: #000; /* Fundo escuro atrás da foto */
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 'contain' garante que a foto vertical apareça inteira */
+            background-size: contain; 
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out; 
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            color: #ff6b6b; /* Vermelho suave/rosado pro tema escuro */
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-style: italic;
+            color: #d1d5db; /* Cinza clarinho */
+        }
+
+        .countdown-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 45px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .time-box {
+            background: linear-gradient(145deg, rgba(255,107,107,0.2), rgba(168,63,63,0.4));
+            color: white;
+            padding: 20px 15px;
+            border-radius: 16px;
+            min-width: 100px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+        }
+
+        .time-box .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
+            font-weight: 300;
+            color: #e5e7eb;
+        }
+
+        .location {
+            font-size: 1.4rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: #f3f4f6;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            font-size: 2rem;
+            animation: heartbeat 1.5s infinite;
+            filter: drop-shadow(0 0 10px rgba(255,107,107,0.6));
+        }
+
+        .date-info {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        /* Responsividade para celulares */
+        @media (max-width: 900px) {
+            .main-wrapper {
+                flex-direction: column; /* Empilha no celular */
+                gap: 20px;
+            }
+            .glass-container {
+                padding: 40px 20px;
+            }
+            .photo-container {
+                min-height: 500px; /* Aumenta a área da foto no celular */
+                width: 100%;
+            }
+            h1 { font-size: 2.2rem; }
+            .time-box { min-width: 80px; padding: 15px 10px; }
+            .time-box span { font-size: 2.2rem; }
+            .location { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Efeito de fundo estrelado -->
+    <div class="stars"></div>
+
+    <div class="main-wrapper">
+        
+        <!-- Lado Esquerdo: Painel de Contagem -->
+        <div class="glass-container">
+            <h1>Até o nosso abraço!</h1>
+            <p class="subtitle">Cada segundo no espaço conta quando o destino é você.</p>
+
+            <div class="countdown-container" id="countdown">
+                <div class="time-box">
+                    <span id="days">00</span>
+                    <div class="label">Dias</div>
+                </div>
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <div class="label">Horas</div>
+                </div>
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <div class="label">Minutos</div>
+                </div>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <div class="label">Segundos</div>
+                </div>
+            </div>
+
+            <div class="location">
+                Tucuruí <span class="heart">❤️</span> Belém
+            </div>
+            <div class="date-info">
+                15 de Agosto de 2026, às 08:00
+            </div>
+        </div>
+
+        <!-- Lado Direito: Carrossel de Fotos -->
+        <div class="photo-container">
+            <!-- Suas fotos em formato JPEG -->
+            <div class="slide active" style="background-image: url('foto1.jpeg');"></div>
+            <div class="slide" style="background-image: url('foto2.jpeg');"></div>
+            <div class="slide" style="background-image: url('foto3.jpeg');"></div>
+            <div class="slide" style="background-image: url('foto4.jpeg');"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // Lógica do Carrossel
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 5000); // Troca a foto a cada 5 segundos
+
+        // Lógica da Contagem Regressiva
+        const targetDate = new Date("August 15, 2026 08:00:00").getTime();
+
+        const updateCountdown = setInterval(() => {
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            if (timeLeft < 0) {
+                clearInterval(updateCountdown);
+                document.getElementById("countdown").innerHTML = "<h2 style='color: #ff6b6b; font-size: 2rem; margin: 20px 0;'>Chegou a hora! Aproveitem muito! 🚀❤️</h2>";
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        }, 1000);
+    </script>
+
+</body>
+</html>
